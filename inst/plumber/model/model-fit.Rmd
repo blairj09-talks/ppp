@@ -1,0 +1,61 @@
+---
+title: "Model Fit"
+output: html_notebook
+---
+
+```{r setup}
+# Packages ----
+library(tidymodels)
+library(parsnip)
+library(AmesHousing)
+```
+
+# Ames Housing Model
+This model is fit using the Ames housing data, which is available in the
+[`AmesHousing` R
+Package](https://cran.r-project.org/web/packages/AmesHousing/index.html). The
+model training outlined here closely follows the [parsnip regression
+example](https://tidymodels.github.io/parsnip/articles/articles/Regression.html).
+
+# Data
+```{r data}
+ames <- make_ames()
+
+data_split <- initial_split(ames, strata = "Sale_Price", p = 0.75)
+ames_train <- training(data_split)
+ames_test <- testing(data_split)
+```
+
+# Pre-Processing
+```{r}
+ames_recipe <- recipe(
+  Sale_Price ~ Longitude + Latitude + Lot_Area + Neighborhood + Year_Sold, 
+  data = ames_train
+) %>%
+  step_other(Neighborhood) %>% 
+  step_dummy(all_nominal()) %>%
+  step_center(all_predictors()) %>%
+  step_scale(all_predictors()) %>%
+  step_log(Sale_Price, base = 10) %>% 
+  # estimate the means and standard deviations
+  prep(training = ames_train, retain = TRUE)
+```
+
+# Model
+```{r}
+ames_model <- linear_reg(penalty = 0.001, mixture = 0.5) %>% 
+  set_engine("glmnet") %>%
+  fit(Sale_Price ~ ., data = juice(ames_recipe))
+```
+
+Save the model into various locations for deployment and testing
+```{r}
+write_dirs <- fs::dir_ls("..", type = "directory")
+purrr::walk(write_dirs, ~{
+  readr::write_rds(ames_model, path = fs::path(., "ames-model.rds"))
+  readr::write_rds(ames_recipe, path = fs::path(., "ames-recipe.rds"))
+  jsonlite::write_json(ames_test, path = fs::path(., "test-data.json"))
+  jsonlite::write_json(head(ames_test), path = fs::path(., "test-data-small.json"))
+})
+```
+

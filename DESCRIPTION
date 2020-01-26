@@ -1,0 +1,30 @@
+Package: ppp
+Type: Package
+Title: Example Plumber API Package
+Version: 0.1.0
+Author: James Blair
+Maintainer: James Blair <james@rstudio.com>
+Description: This package accompanies a talk given at RStudio::conf 2020 about
+    practical Plumber patterns (ppp).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.5.0)
+Suggests: 
+    testthat (>= 2.1.0),
+    httr,
+    callr,
+    loadtest (>= 0.1.2),
+    AmesHousing
+Imports: 
+    dplyr,
+    recipes,
+    jsonlite,
+    plumber,
+    tibble,
+    parsnip,
+    glmnet
+Remotes: 
+    tmobile/loadtest
+RoxygenNote: 7.0.2
