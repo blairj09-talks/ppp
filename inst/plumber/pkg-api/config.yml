@@ -2,4 +2,4 @@ default:
   log_dir: /tmp/plumber-logs
 
 rsconnect:
-  log_dir: /var/log/plumber
+  log_dir: /tmp/log/plumber
