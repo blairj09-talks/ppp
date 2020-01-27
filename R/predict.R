@@ -56,6 +56,7 @@ predict_sale_price <- function(new_data, all = TRUE, log = FALSE) {
 
 #' Run the housing prediction API
 #'
+#' @param log Logical. Should Plumber APi log requests. Default is TRUE.
 #' @param ... Options passed to \code{plumber::plumb()$run()}
 #' @examples
 #' \dontrun{
@@ -64,6 +65,11 @@ predict_sale_price <- function(new_data, all = TRUE, log = FALSE) {
 #' }
 #' @return A running Plumber API
 #' @export
-run_predict_api <- function(...) {
-  plumber::plumb(dir = system.file("plumber", "pkg-api", package = "ppp"))$run(...)
+run_predict_api <- function(log = TRUE, ...) {
+  if (log) {
+    plumber::plumb(dir = system.file("plumber", "pkg-api", package = "ppp"))$run(...)
+  } else {
+    plumber::plumb(file = system.file("plumber", "pkg-api", "plumber.R", package = "ppp"))$run(...)
+  }
+
 }

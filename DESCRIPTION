@@ -24,7 +24,12 @@ Imports:
     plumber,
     tibble,
     parsnip,
-    glmnet
+    glmnet,
+    logger,
+    glue,
+    config,
+    fs,
+    tictoc
 Remotes: 
     tmobile/loadtest
 RoxygenNote: 7.0.2

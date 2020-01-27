@@ -4,9 +4,11 @@
 \alias{run_predict_api}
 \title{Run the housing prediction API}
 \usage{
-run_predict_api(...)
+run_predict_api(log = TRUE, ...)
 }
 \arguments{
+\item{log}{Logical. Should Plumber APi log requests. Default is TRUE.}
+
 \item{...}{Options passed to \code{plumber::plumb()$run()}}
 }
 \value{
