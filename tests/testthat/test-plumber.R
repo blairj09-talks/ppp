@@ -2,13 +2,12 @@
 root_path <- "http://localhost"
 default_port <- 8000
 
-pred_api <- callr::r_bg(
-  ppp::run_predict_api,
-  args = list(port = 8000, swagger = FALSE)
+pred_api <- setup(
+  callr::r_bg(
+    ppp::run_predict_api,
+    args = list(port = 8000, swagger = FALSE)
+  )
 )
-
-# Make sure the API has warmed up and fully initialized
-Sys.sleep(5)
 
 teardown(pred_api$kill())
 
@@ -17,8 +16,16 @@ test_that("API is alive", {
 })
 
 test_that("Health Check works", {
-  # Send request
-  r <- httr::GET(url = root_path, port = default_port, path = "health-check")
+  # Send request and ensure the API is fully initialized and listening. At most
+  # wait 15 seconds for the API to initialize
+  max_s <- 15
+  for (i in 1:max_s) {
+    try({
+      r <- httr::GET(url = root_path, port = default_port, path = "health-check")
+      break()
+    }, silent = TRUE)
+    Sys.sleep(1)
+  }
 
   # Check response
   expect_equal(httr::status_code(r), 200)
