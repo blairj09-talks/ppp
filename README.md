@@ -96,5 +96,5 @@ remotes::install_github("blairj09/ppp")
 
 There are two functions exported in this package:
 
-`predict_sale_price()` is an R function that will return predictions on new data based on the trained model.
-`run_predict_api()` will run the Plumber API for providing predicted values
+* `predict_sale_price()` is an R function that will return predictions on new data based on the trained model.
+* `run_predict_api()` will run the Plumber API for providing predicted values
