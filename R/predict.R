@@ -71,5 +71,4 @@ run_predict_api <- function(log = TRUE, ...) {
   } else {
     plumber::plumb(file = system.file("plumber", "pkg-api", "plumber.R", package = "ppp"))$run(...)
   }
-
 }
