@@ -1,6 +1,9 @@
 # Practical Plumber Patterns
 
-This repository was used for a talk of the same name given at RStudio::conf 2020
+This repository was used for a talk of the same name given at [RStudio::conf
+2020](https://rstudio.com/conference/).
+
+[![First Slide](slides/front-slide.png)](slides/slides.pdf)
 
 ---
 

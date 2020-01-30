@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 *.nb.html
+*.key
+slides/imgs
+
